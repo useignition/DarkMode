@@ -4,8 +4,8 @@
 @interface _UIBarBackground: UIView
 @end
 
-@interface _UINavigationBarContentView: UIView
-@end
+// @interface _UINavigationBarContentView: UIView
+// @end
 
 @interface TFNCustomTabBar: UIView
 @end
@@ -35,6 +35,7 @@ static inline UIView* UIViewWithColor(UIColor *color) {
 %end
 
 %hook UISwitch
+
     - (void)layoutSubviews {
         %orig();
         [self setOnTintColor:[UIColor colorWithRed:0.45 green:0.36 blue:0.87 alpha:1.0]];
@@ -57,13 +58,11 @@ static inline UIView* UIViewWithColor(UIColor *color) {
         self.tintColor = [UIColor whiteColor];
     }
 
-    - (id)activeTintColor
-    {
+    - (id)activeTintColor {
         return [UIColor colorWithRed:255 green:255 blue:255 alpha:1];
     }
 
-    - (void)setTintColor:(id)arg1
-    {
+    - (void)setTintColor:(id)arg1 {
         %orig([self activeTintColor]);          
     }
 
@@ -149,14 +148,14 @@ static inline UIView* UIViewWithColor(UIColor *color) {
 }
 %end
 
-%hook _UINavigationBarContentView
--(void)layoutSubviews {
-    %orig;
-    UIVisualEffectView* _backgroundEffectView = MSHookIvar<UIVisualEffectView *>(self, "_backgroundEffectView");
-    _backgroundEffectView.hidden = NO;
-    self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
-}
-%end
+// %hook _UINavigationBarContentView
+// -(void)layoutSubviews {
+//     %orig;
+//     UIVisualEffectView* _backgroundEffectView = MSHookIvar<UIVisualEffectView *>(self, "_backgroundEffectView");
+//     _backgroundEffectView.hidden = NO;
+//     self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
+// }
+// %end
 
 %hook UITableView
 -(void)layoutSubviews {
@@ -214,16 +213,6 @@ static inline UIView* UIViewWithColor(UIColor *color) {
     self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
 }
 %end
-
-// %hook NSAttributedString
-
-// - (void)layoutSubviews {
-//     %orig;
-//     NSDictionary *attributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-//     self.textColor = [UIColor whiteColor];
-// }
-
-// %end
 
 %hook TFNCustomTabBar
 - (void)layoutSubviews {
