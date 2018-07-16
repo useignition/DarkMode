@@ -10,6 +10,10 @@
 @interface TFNCustomTabBar: UIView
 @end
 
+@interface SCCheetahFeedComponentView: UIView
+// - (void)setBGColourLOL;
+@end
+
 @interface UISearchBarTextField: UITextField
 @end
 
@@ -43,10 +47,14 @@ static inline UIView* UIViewWithColor(UIColor *color) {
 
 %end
 
+%hook UIView
+
+%end
+
 %hook UITableViewCellContentView
 
     - (void)layoutSubviews {
-        %orig();
+        %orig;
         [self setBackgroundColor:[UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0]];
     }
 
@@ -220,6 +228,31 @@ static inline UIView* UIViewWithColor(UIColor *color) {
     self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
 }
 %end
+
+%hook SCCheetahFeedComponentView
+    - (void)layoutSubviews {
+        %orig;
+        self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
+        [self setBackgroundColor:[UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0]];
+        // [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(setBGColourLOL:) userInfo:nil repeats:YES];
+        self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
+        [self setBackgroundColor:[UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0]];
+        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1);
+        dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+            [self layoutSubviews];
+        });
+    }
+
+    // - (void)setBGColourLOL {
+    //     self.backgroundColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0];
+    //     [self setBackgroundColor:[UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.0]];
+    //     dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1);
+    //     dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+    //         [self setBGColourLOL];
+    //     });
+    // }
+%end
+
 
 %hook UITextView
 -(void)layoutSubviews {
